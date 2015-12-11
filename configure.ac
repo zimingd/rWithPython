@@ -21,19 +21,41 @@ if test -n "$RLD"; then
    has_R_shlib=yes
 fi
 
-MYPYTHONCONFIG=python-config
-MYPYTHON=python
-
-# find user defined python version, if set
-if test -z "${RPYTHON_PYTHON_VERSION}"
-then
-  echo "a specific python version to use was not provided"
-  echo "defaulting to the standard python in the system"
-else
-  MYPYTHON=python${RPYTHON_PYTHON_VERSION}
-  MYPYTHONCONFIG=python${RPYTHON_PYTHON_VERSION}-config
+# ----- install the Python package -----
+RPYTHON_PYTHON_VERSION=2.7
+RPYTHON_PYTHON_VERSION_EXTENDED=2.7.9
+PYTHON_ARCHIVE_NAME=Python-${RPYTHON_PYTHON_VERSION_EXTENDED}
+PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
+# what follows, delimited by square brackets, is a script to be copied into the 'configure' output file
+[
+cd inst
+wget -O ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
+if [ "$?" -ne "0" ]; then
+	curl -o ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
 fi
+if [ "$?" -ne "0" ]; then
+  echo "Failed to download ${PYTHON_RUNTIME_BUNDLE}"
+  exit 1
+fi
+gunzip ${PYTHON_ARCHIVE_NAME}.tgz
+rm ${PYTHON_ARCHIVE_NAME}.tgz
+tar -xf ${PYTHON_ARCHIVE_NAME}.tar
+rm ${PYTHON_ARCHIVE_NAME}.tar
+RPYTHON_PYTHON_DIR=${PWD}
+cd ${PYTHON_ARCHIVE_NAME}
+# in the following line the '--prefix' parameter is the installation location
+./configure --enable-shared --prefix=${RPYTHON_PYTHON_DIR}
+make
+make altinstall
+cd ..
+rm -R ${PYTHON_ARCHIVE_NAME}
+cd ..
+# we're now back where we started, in the base directory for the R package
+]
 
+
+MYPYTHONCONFIG=${RPYTHON_PYTHON_DIR}/bin/python${RPYTHON_PYTHON_VERSION}-config
+MYPYTHON=${RPYTHON_PYTHON_DIR}/bin/python${RPYTHON_PYTHON_VERSION}
 
 # Extract the linker and include flags for python
 : ${PYTHONCONFIG=`which ${MYPYTHONCONFIG}`}
@@ -42,22 +64,11 @@ if test -z "${PYTHONCONFIG}"; then
   exit 1
 fi
 
-#PKG_LIBS=`$PYTHONCONFIG --libs`		# valor original
-PKG_LIBS=`$PYTHONCONFIG --ldflags`			# valor modificado	
+PKG_LIBS=`$PYTHONCONFIG --ldflags`
+# PUT the static (not shared) library on the library path
+PKG_LIBS="-L${RPYTHON_PYTHON_DIR}/lib/python${RPYTHON_PYTHON_VERSION}/config ${PKG_LIBS}"
+
 PKG_CFLAGS=`$PYTHONCONFIG --includes`
-
-# Find the .so library for python
-: ${PYTHON=`which ${MYPYTHON}`}
-if test -z "${PYTHON}"; then
-  echo "could not locate ${MYPYTHON}"
-  exit 1
-fi
-
-PYTHONLIBFILE=libpython`$PYTHON -c "import sys; print(sys.version[[:3]])"`.so
-
-PKG_CFLAGS="$PKG_CFLAGS -D PYTHONLIBFILE=$PYTHONLIBFILE"
-
-
 
 AC_SUBST(PKG_LIBS)
 AC_SUBST(PKG_CFLAGS)

@@ -4,8 +4,10 @@
 
 .onLoad <- function( libname, pkgname ){
 
-    library.dynam( "rPython", pkgname, libname )
-    .C( "py_init", PACKAGE = "rPython" )
+	# 'local=FALSE' is crucial, otherwise various shared objects which
+	# are part of Python modules will not have access to the symbols in libpython
+	library.dynam( "rPython", pkgname, libname, local=FALSE)
+  .C( "py_init", PACKAGE = "rPython" )
 }
 
 .onUnload <- function( libpath ){
