@@ -1749,10 +1749,10 @@ if test -n "$RLD"; then
 fi
 
 # ----- install the Python package -----
-RPYTHON_PYTHON_VERSION=2.7
-RPYTHON_PYTHON_VERSION_EXTENDED=2.7.9
-PYTHON_ARCHIVE_NAME=Python-${RPYTHON_PYTHON_VERSION_EXTENDED}
-PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
+RWITHPYTHON_PYTHON_VERSION=2.7
+RWITHPYTHON_PYTHON_VERSION_EXTENDED=2.7.9
+PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
+PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
 # what follows, delimited by square brackets, is a script to be copied into the 'configure' output file
 
 cd inst
@@ -1768,10 +1768,10 @@ gunzip ${PYTHON_ARCHIVE_NAME}.tgz
 # NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
 tar -xf ${PYTHON_ARCHIVE_NAME}.tar
 rm ${PYTHON_ARCHIVE_NAME}.tar
-RPYTHON_PYTHON_DIR=${PWD}
+RWITHPYTHON_PYTHON_DIR=${PWD}
 cd ${PYTHON_ARCHIVE_NAME}
 # in the following line the '--prefix' parameter is the installation location
-./configure --enable-shared --prefix=${RPYTHON_PYTHON_DIR}
+./configure --enable-shared --prefix=${RWITHPYTHON_PYTHON_DIR}
 make
 make altinstall
 cd ..
@@ -1781,8 +1781,8 @@ cd ..
 
 
 
-MYPYTHONCONFIG=${RPYTHON_PYTHON_DIR}/bin/python${RPYTHON_PYTHON_VERSION}-config
-MYPYTHON=${RPYTHON_PYTHON_DIR}/bin/python${RPYTHON_PYTHON_VERSION}
+MYPYTHONCONFIG=${RWITHPYTHON_PYTHON_DIR}/bin/python${RWITHPYTHON_PYTHON_VERSION}-config
+MYPYTHON=${RWITHPYTHON_PYTHON_DIR}/bin/python${RWITHPYTHON_PYTHON_VERSION}
 
 # Extract the linker and include flags for python
 : ${PYTHONCONFIG=`which ${MYPYTHONCONFIG}`}
@@ -1793,7 +1793,7 @@ fi
 
 PKG_LIBS=`$PYTHONCONFIG --ldflags`
 # PUT the static (not shared) library on the library path
-PKG_LIBS="-L${RPYTHON_PYTHON_DIR}/lib/python${RPYTHON_PYTHON_VERSION}/config ${PKG_LIBS}"
+PKG_LIBS="-L${RWITHPYTHON_PYTHON_DIR}/lib/python${RWITHPYTHON_PYTHON_VERSION}/config ${PKG_LIBS}"
 
 PKG_CFLAGS=`$PYTHONCONFIG --includes`
 
