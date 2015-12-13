@@ -28,7 +28,7 @@ a <- 1:4
 b <- 5:8
 
 # this file contains the definition of function concat
-python.load( system.file( "concat.py", package = "rPython" ) )
+python.load( system.file( "concat.py", package = "rWithPython" ) )
 python.call( "concat", a, b)
 
 }

@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 # This file is based on configure.ac file distributed along with the rJava package
 
-AC_INIT(rPython, 0.3, cgb@datanalytics.com)
+AC_INIT(rWithPython, 0.3, cgb@datanalytics.com)
 AC_CONFIG_SRCDIR([src])
 #AC_CONFIG_HEADER([src/config.h])
 
