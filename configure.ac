@@ -38,7 +38,7 @@ if [ "$?" -ne "0" ]; then
   exit 1
 fi
 gunzip ${PYTHON_ARCHIVE_NAME}.tgz
-rm ${PYTHON_ARCHIVE_NAME}.tgz
+# NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
 tar -xf ${PYTHON_ARCHIVE_NAME}.tar
 rm ${PYTHON_ARCHIVE_NAME}.tar
 RPYTHON_PYTHON_DIR=${PWD}
