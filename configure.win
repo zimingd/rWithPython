@@ -1,36 +1,4 @@
 #!/bin/sh
 
-# TODO this repeats content of 'configure.ac'.  Can they be unified, maybe by
-# putting the common content into a script like tools/installPython
-# ----- install the Python package -----
-export RWITHPYTHON_PYTHON_VERSION=2.7
-export RWITHPYTHON_PYTHON_VERSION_EXTENDED=2.7.9
-export PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
-export PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
-
-cd inst
-wget -O ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
-if [ "$?" -ne "0" ]; then
-	curl -o ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
-fi
-if [ "$?" -ne "0" ]; then
-  echo "Failed to download ${PYTHON_RUNTIME_BUNDLE}"
-  exit 1
-fi
-gunzip ${PYTHON_ARCHIVE_NAME}.tgz
-tar -xf ${PYTHON_ARCHIVE_NAME}.tar
-rm ${PYTHON_ARCHIVE_NAME}.tar
-RWITHPYTHON_PYTHON_DIR=${PWD}
-cd ${PYTHON_ARCHIVE_NAME}
-# in the following line the '--prefix' parameter is the installation location
-./configure --enable-shared --prefix=${RWITHPYTHON_PYTHON_DIR}
-make
-make altinstall
-cd ..
-rm -R ${PYTHON_ARCHIVE_NAME}
-cd ..
-# we're now back where we started, in the base directory for the R package
-
-echo 'PKG_LIBS=-L${RWITHPYTHON_PYTHON_DIR}/lib/python${RWITHPYTHON_PYTHON_VERSION}/config -lpython27'  > src/makevars.win
-echo 'PKG_CFLAGS=-I"${RWITHPYTHON_PYTHON_DIR}/lib/python${RWITHPYTHON_PYTHON_VERSION}/include"'     >> src/makevars.win
-
+echo 'PKG_LIBS=-LC:/Python27/libs -lpython27'  > src/makevars.win
+echo 'PKG_CFLAGS=-I"C:/Python27/include"'     >> src/makevars.win
