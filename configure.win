@@ -1,6 +1,8 @@
 #!/bin/sh
 
-if [ "$R_ARCH" = ‘/x64’ ]
+echo R_ARCH is set to $R_ARCH
+
+if [ $R_ARCH = "/x64" ]
 then
 	PYTHON_PATH=$PYTHON_X64_PATH
 else
@@ -10,5 +12,5 @@ echo setting PYTHON_PATH to $PYTHON_PATH
 
 cp -R $PYTHON_PATH/Lib inst/lib
 
-echo 'PKG_CFLAGS=-I"$PYTHON_PATH/include"'     > src/makevars.win
-echo 'PKG_LIBS=-L"$PYTHON_PATH/libs" -lpython27'  >> src/makevars.win
+echo 'PKG_CFLAGS=-I$PYTHON_PATH/include'     > src/makevars.win
+echo 'PKG_LIBS=-L$PYTHON_PATH/libs -lpython27'  >> src/makevars.win
