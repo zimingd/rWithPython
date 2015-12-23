@@ -1,0 +1,9 @@
+src/Makevars
+src/*.o
+src/*.so
+**/.DS_Store
+.project
+.settings/*
+autom4te.cache/
+config.log
+config.status
