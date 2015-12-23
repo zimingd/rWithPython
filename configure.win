@@ -6,7 +6,7 @@ then
 else
 	PYTHON_PATH=$PYTHON_X86_PATH
 fi
-echo setting PYTHON_PATH to $PYTHON_PATH
+echo setting PYTHON_PATH to ${PYTHON_PATH}
 
 cp -R ${PYTHON_PATH}/Lib inst/lib
 
