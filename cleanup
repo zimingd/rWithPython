@@ -1,5 +1,9 @@
 #!/bin/sh
 
+rm inst/include
+rm inst/lib
+rm inst/bin
+rm inst/share
 rm src/pycall.o
 rm src/rWithPython.so
 rm srcc/symbols.rds

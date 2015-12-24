@@ -1750,7 +1750,7 @@ fi
 
 # ----- install the Python package -----
 RWITHPYTHON_PYTHON_VERSION=2.7
-RWITHPYTHON_PYTHON_VERSION_EXTENDED=2.7.9
+RWITHPYTHON_PYTHON_VERSION_EXTENDED=2.7.11
 PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
 PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
 # what follows, delimited by square brackets, is a script to be copied into the 'configure' output file
