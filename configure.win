@@ -13,5 +13,5 @@ cp -R ${PYTHON_PATH}/Lib inst/lib
 cp -R ${PYTHON_PATH}/libs src
 
 echo 'PKG_CFLAGS=-I"'${PYTHON_PATH}'/include"'     > src/makevars.win
-# TODO is this an acceptable way to inject a linker option (-static)?
-echo 'PKG_LIBS=-static -L"'${PYTHON_PATH}'/libs" -lpython27'  >> src/makevars.win
+
+echo 'PKG_LIBS=-L"'${PYTHON_PATH}'/libs" -lpython27'  >> src/makevars.win
