@@ -9,8 +9,8 @@ fi
 
 cp -R ${PYTHON_PATH}/Lib inst/lib
 
-# TODO this fails to copy the dlls to the package's 'libs' folder
-cp -R ${PYTHON_PATH}/libs src
+# TODO need this to copy the dlls to the package's 'libs' folder
+cp -R ${PYTHON_PATH}/libs inst/src
 
 echo 'PKG_CFLAGS=-I"'${PYTHON_PATH}'/include"'     > src/makevars.win
 
