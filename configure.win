@@ -10,7 +10,13 @@ fi
 cp -R ${PYTHON_PATH}/Lib inst/lib
 
 # TODO need this to copy the dlls to the package's 'libs' folder
-cp -R ${PYTHON_PATH}/libs inst/src
+if [ $R_ARCH = "/x64" ]
+then
+	cp -R ${PYTHON_PATH}/libs inst/src/x64
+else
+	cp -R ${PYTHON_PATH}/libs inst/src/i386
+fi
+
 
 echo 'PKG_CFLAGS=-I"'${PYTHON_PATH}'/include"'     > src/makevars.win
 
