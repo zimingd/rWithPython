@@ -9,8 +9,9 @@ fi
 
 cp -R ${PYTHON_PATH}/Lib inst/lib
 
-mkdir -p src${R_ARCH}
-cp -rf ${PYTHON_PATH}/libs/* src${R_ARCH}
+#mkdir -p src${R_ARCH}
+#cp -rf ${PYTHON_PATH}/libs/* src${R_ARCH}
+cp -rf ${PYTHON_PATH}/libs/* inst/libs
 
 echo 'PKG_CFLAGS=-I"'${PYTHON_PATH}'/include"'     > src/makevars.win
 
