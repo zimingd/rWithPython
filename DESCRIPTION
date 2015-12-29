@@ -1,6 +1,6 @@
 Package: rWithPython
 Version: 0.0-1
-Date: 2015-12-14
+Date: 2015-12-29
 Title: Package allowing R to call embedded/private copy of Python
 Author: Carlos J. Gil Bellosta
 Maintainer: Bruce Hoff <bruce.hoff@sagebase.org>
@@ -8,5 +8,5 @@ Description: This package permits calls to Python from R
 Depends: RJSONIO (>= 0.7-3)
 License: GPL-2
 URL: https://github.com/Sage-Bionetworks/rWithPython
-Packaged: 2015-12-14
-Date/Publication: 2015-12-14
+Packaged: 2015-12-29
+Date/Publication: 2015-12-29
