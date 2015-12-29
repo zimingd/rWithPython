@@ -9,8 +9,11 @@ fi
 
 cp -R ${PYTHON_PATH}/Lib inst/lib
 
-cp -rf ${PYTHON_PATH}/libs/* ${R_HOME}/libs${R_ARCH}
+cp -rf ${PYTHON_PATH}/libs/* src${R_ARCH}
 
 echo 'PKG_CFLAGS=-I"'${PYTHON_PATH}'/include"'     > src/makevars.win
 
-echo 'PKG_LIBS=-L"'${PYTHON_PATH}'/libs" -lpython27'  >> src/makevars.win
+echo 'PKG_LIBS=-L"src${R_ARCH}" -lpython27'  >> src/makevars.win
+
+ls -alR src
+
