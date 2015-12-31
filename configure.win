@@ -10,7 +10,7 @@ fi
 cp -R ${PYTHON_PATH}/Lib inst/lib
 
 mkdir -p inst/pythonLibs
-cp -rf ${PYTHON_PATH}/libs/* inst/pythonLibs
+cp -rf ${PYTHON_PATH}/libs/python27.dll inst/pythonLibs
 
 echo 'PKG_CFLAGS=-I"'${PYTHON_PATH}'/include"'     > src/makevars.win
 

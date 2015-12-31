@@ -2,9 +2,9 @@
 # CGB, 20100716
 #########################################################
 
-addPythonLibrariesToPath<-function() {
+addPythonLibrariesToPath<-function(libname, pkgname) {
 	# Note: 'pythonLibs' is defined in configure.win
-	pathToPythonLibraries<-system.file("pythonLibs", package="rWithPython")
+	pathToPythonLibraries<-file.path(libname, pkgname, "pythonLibs")
 	pathSep<-":"
 	if (Sys.info()['sysname']=="Windows") {
 		pathToPythonLibraries<-gsub("/", "\\", pathToPythonLibraries, fixed=T)
@@ -20,10 +20,8 @@ addPythonLibrariesToPath<-function() {
 
 .onLoad <- function( libname, pkgname ) {
 	cat(sprintf("in '.onLoad':\n\tlibname: <%s>\n\tpkgname: <%s>\n", libname, pkgname))
-	#cat("in '.onLoad':  Contents of 'libs' folder:\n")
-	#cat(list.files(system.file("libs", package="rWithPython"), recursive=T), sep="\n\t")
 	
-	addPythonLibrariesToPath()
+	addPythonLibrariesToPath(libname, pkgname)
 	cat("in '.onLoad': path is ", Sys.getenv("PATH"), "\n")
 	
 	Sys.setenv(PYTHONHOME=system.file(package="rWithPython"))
