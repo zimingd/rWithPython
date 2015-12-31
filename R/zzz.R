@@ -12,7 +12,7 @@ addPythonLibrariesToPath<-function() {
 	# Note: 'pythonLibs' is defined in configure.win
 	pathToPythonLibraries<-system.file("pythonLibs", package="rWithPython")
   if (!any(currentPaths==pathToPythonLibraries)) {
-		newPathString<-paste(pathToPythonLibraries, currentPathString, sep="pathSep")
+		newPathString<-paste(pathToPythonLibraries, currentPathString, sep=pathSep)
 		Sys.setenv(PATH=newPathString)
 	}
 }
