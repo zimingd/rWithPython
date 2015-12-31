@@ -3,14 +3,15 @@
 #########################################################
 
 addPythonLibrariesToPath<-function() {
-	currentPathString<-Sys.getenv("PATH")
-	pathSep<-":"
-	if (Sys.info()['sysname']=="Windows") {
-		pathSep<-";"
-	}
-	currentPaths<-strsplit(currentPathString, pathSep, fixed=T)[[1]]
 	# Note: 'pythonLibs' is defined in configure.win
 	pathToPythonLibraries<-system.file("pythonLibs", package="rWithPython")
+	pathSep<-":"
+	if (Sys.info()['sysname']=="Windows") {
+		pathToPythonLibraries<-gsub("/", "\\", pathToPythonLibraries, fixed=T)
+		pathSep<-";"
+	}
+	currentPathString<-Sys.getenv("PATH")
+	currentPaths<-strsplit(currentPathString, pathSep, fixed=T)[[1]]
   if (!any(currentPaths==pathToPythonLibraries)) {
 		newPathString<-paste(pathToPythonLibraries, currentPathString, sep=pathSep)
 		Sys.setenv(PATH=newPathString)
