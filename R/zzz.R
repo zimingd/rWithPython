@@ -19,8 +19,8 @@ addPythonLibrariesToPath<-function() {
 
 .onLoad <- function( libname, pkgname ) {
 	cat(sprintf("in '.onLoad':\n\tlibname: <%s>\n\tpkgname: <%s>\n", libname, pkgname))
-	cat("in '.onLoad':  Contents of 'libs' folder:\n")
-	cat(list.files(system.file("libs", package="rWithPython"), recursive=T), sep="\n\t")
+	#cat("in '.onLoad':  Contents of 'libs' folder:\n")
+	#cat(list.files(system.file("libs", package="rWithPython"), recursive=T), sep="\n\t")
 	
 	addPythonLibrariesToPath()
 	cat("in '.onLoad': path is ", Sys.getenv("PATH"), "\n")
