@@ -16,5 +16,3 @@ echo 'PKG_CFLAGS=-I"'${PYTHON_PATH}'/include"'     > src/makevars.win
 
 echo 'PKG_LIBS=-L"'${PYTHON_PATH}'/libs" -lpython27'  >> src/makevars.win
 
-ls -alR libs
-
