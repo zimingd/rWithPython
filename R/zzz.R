@@ -2,24 +2,30 @@
 # CGB, 20100716
 #########################################################
 
-addPythonLibrariesToPath<-function(libname, pkgname) {
+# on Windows we need to add Python dll's to library search path
+addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
+	if (Sys.info()['sysname']!="Windows") return
 	# Note: 'pythonLibs' is defined in configure.win
 	pathToPythonLibraries<-file.path(libname, pkgname, "pythonLibs")
-	pathSep<-":"
-	if (Sys.info()['sysname']=="Windows") {
-		pathToPythonLibraries<-gsub("/", "\\", pathToPythonLibraries, fixed=T)
-		pathSep<-";"
-	}
-	currentPathString<-Sys.getenv("PATH")
-	currentPaths<-strsplit(currentPathString, pathSep, fixed=T)[[1]]
-  if (!any(currentPaths==pathToPythonLibraries)) {
-		newPathString<-paste(pathToPythonLibraries, currentPathString, sep=pathSep)
-		Sys.setenv(PATH=newPathString)
+	pathToPythonLibraries<-gsub("/", "\\", pathToPythonLibraries, fixed=T)
+#	currentPathString<-Sys.getenv("PATH")
+	pathSep<-";"
+#	currentPaths<-strsplit(currentPathString, pathSep, fixed=T)[[1]]
+#  if (!any(currentPaths==pathToPythonLibraries)) {
+#		newPathString<-paste(pathToPythonLibraries, currentPathString, sep=pathSep)
+#		Sys.setenv(PATH=newPathString)
+#	}
+	if (length(grep("64",  Sys.info()['machine'], fixed=T))==0) {
+		# i386
+		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\\R\bin", "C:\\Windows\\system32", sep=pathSep))
+	} else {
+		# x64
+		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\R\\bin", "C:\\Windows\\SysWOW64", sep=pathSep))
 	}
 }
 
 .onLoad <- function( libname, pkgname ) {	
-	addPythonLibrariesToPath(libname, pkgname)
+	addPythonLibrariesToWindowsPath(libname, pkgname)
 	cat("in '.onLoad': path is ", Sys.getenv("PATH"), "\n")
 	
 	Sys.setenv(PYTHONHOME=system.file(package="rWithPython"))
