@@ -19,7 +19,7 @@ addPythonLibrariesToPath<-function(libname, pkgname) {
 }
 
 .onLoad <- function( libname, pkgname ) {	
-	#addPythonLibrariesToPath(libname, pkgname)
+	addPythonLibrariesToPath(libname, pkgname)
 	cat("in '.onLoad': path is ", Sys.getenv("PATH"), "\n")
 	
 	Sys.setenv(PYTHONHOME=system.file(package="rWithPython"))
