@@ -17,7 +17,7 @@ addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
 #	}
 	if (length(grep("64",  Sys.info()['machine'], fixed=T))==0) {
 		# i386
-		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\\R\bin", "C:\\Windows\\system32", sep=pathSep))
+		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\\R\\bin", "C:\\Windows\\system32", sep=pathSep))
 	} else {
 		# x64
 		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\R\\bin", "C:\\Windows\\SysWOW64", sep=pathSep))
