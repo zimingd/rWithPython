@@ -15,14 +15,15 @@ addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
 #		newPathString<-paste(pathToPythonLibraries, currentPathString, sep=pathSep)
 #		Sys.setenv(PATH=newPathString)
 #	}
-	cat("In addPythonLibrariesToWindowsPath, 'machine': ", Sys.info()['machine'], "\n")
-	if (length(grep("64",  Sys.info()['machine'], fixed=T))==0) {
-		# i386
-		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\\R\\bin", "C:\\Windows\\system32", sep=pathSep))
-	} else {
-		# x64
-		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\\R\\bin", "C:\\Windows\\SysWOW64", sep=pathSep))
-	}
+	Sys.setenv(PATH=pathToPythonLibraries)
+#	cat("In addPythonLibrariesToWindowsPath, 'machine': ", Sys.info()['machine'], "\n")
+#	if (length(grep("64",  Sys.info()['machine'], fixed=T))==0) {
+#		# i386
+#		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\\R\\bin", "C:\\Windows\\system32", sep=pathSep))
+#	} else {
+#		# x64
+#		Sys.setenv(PATH=paste(pathToPythonLibraries, "c:\\bin\\R\\bin", "C:\\Windows\\SysWOW64", sep=pathSep))
+#	}
 }
 
 .onLoad <- function( libname, pkgname ) {	
