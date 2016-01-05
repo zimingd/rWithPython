@@ -12,7 +12,7 @@ cp -R ${PYTHON_ROOT_PATH}/Lib inst/lib
 mkdir -p inst/pythonLibs
 cp -rf ${PYTHON_LIB_PATH}/python35.lib inst/pythonLibs
 
-echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/Include"'     > src/makevars.win
+echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/Include" -I"'${PYTHON_ROOT_PATH}'/PC"'     > src/makevars.win
 
 echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
 
