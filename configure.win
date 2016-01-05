@@ -1,11 +1,11 @@
 #!/bin/sh
 
-#if [ $R_ARCH = "/x64" ]
-#then
-#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/amd64
-#else
-#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/win32
-#fi
+if [ $R_ARCH = "/x64" ]
+then
+	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/amd64
+else
+	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/win32
+fi
 
 cp -R ${PYTHON_ROOT_PATH}/Lib inst/lib
 
