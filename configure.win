@@ -2,22 +2,22 @@
 
 if [ $R_ARCH = "/x64" ]
 then
-#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/amd64
-	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/amd64
+	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/amd64
+#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/amd64
 else
-#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/win32
-	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/win32
+	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/win32
+#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/win32
 fi
 
 cp -R ${PYTHON_ROOT_PATH}/Lib inst/lib
 
 mkdir -p inst/pythonLibs
-#cp -rf ${PYTHON_LIB_PATH}/python35.lib inst/pythonLibs
-cp -rf ${PYTHON_LIB_PATH}/libpython27.a inst/pythonLibs
+cp -rf ${PYTHON_LIB_PATH}/python35.lib inst/pythonLibs/libpython35.a
+#cp -rf ${PYTHON_LIB_PATH}/libpython27.a inst/pythonLibs
 
-#echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/Include" -I"'${PYTHON_ROOT_PATH}'/PC"'     > src/makevars.win
-echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/include"'     > src/makevars.win
+echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/Include" -I"'${PYTHON_ROOT_PATH}'/PC"'     > src/makevars.win
+#echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/include"'     > src/makevars.win
 
-#echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
-echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython27'  >> src/makevars.win
+echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
+#echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython27'  >> src/makevars.win
 
