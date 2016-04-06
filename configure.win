@@ -1,23 +1,47 @@
 #!/bin/sh
 
+RWITHPYTHON_PYTHON_VERSION=3.5
+RWITHPYTHON_PYTHON_VERSION_EXTENDED=3.5.1
+
 if [ $R_ARCH = "/x64" ]
 then
-	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/amd64
-#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/amd64
+	EMBEDDED_ZIP=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed-amd64.zip
 else
-	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/PCbuild/win32
-#	PYTHON_LIB_PATH=${PYTHON_ROOT_PATH}/win32
+	EMBEDDED_ZIP=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed-win32.zip
 fi
 
-cp -R ${PYTHON_ROOT_PATH}/Lib inst/lib
+# This creates a folder /lib in the installed package.
+# Note:  You can't create /libs which is reserved for the R package installer
+mkdir inst/lib
+cd inst/lib
+wget -O python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip $EMBEDDED_ZIP
+if [ "$?" -ne "0" ]; then
+  echo "Failed to download $EMBEDDED_ZIP"
+  exit 1
+fi
+unzip python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip
+PYTHON_LIB_PATH=${PWD}
 
-mkdir -p inst/pythonLibs
-cp -rf ${PYTHON_LIB_PATH}/libpython35.a inst/pythonLibs
-#cp -rf ${PYTHON_LIB_PATH}/libpython27.a inst/pythonLibs
+cd ../..
 
-echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/Include" -I"'${PYTHON_ROOT_PATH}'/PC"'     > src/makevars.win
-#echo 'PKG_CFLAGS=-I"'${PYTHON_ROOT_PATH}'/include"'     > src/makevars.win
+
+
+# Now get the include files
+# Note, we don't put them into 'inst' because they aren't needed in the installed package
+PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
+PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
+
+wget -O ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
+if [ "$?" -ne "0" ]; then
+  echo "Failed to download ${PYTHON_RUNTIME_BUNDLE}"
+  exit 1
+fi
+gunzip ${PYTHON_ARCHIVE_NAME}.tgz
+# NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
+tar -xf ${PYTHON_ARCHIVE_NAME}.tar
+rm ${PYTHON_ARCHIVE_NAME}.tar
+
+echo 'PKG_CFLAGS=-I"'${PYTHON_ARCHIVE_NAME}'/include"'     > src/makevars.win
 
 echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
-#echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython27'  >> src/makevars.win
 
