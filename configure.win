@@ -22,9 +22,9 @@ fi
 unzip python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip
 PYTHON_LIB_PATH=${PWD}
 
+echo PYTHON_LIB_PATH=${PYTHON_LIB_PATH}
+
 cd ../..
-
-
 
 # Now get the include files
 # Note, we don't put them into 'inst' because they aren't needed in the installed package
@@ -40,8 +40,10 @@ gunzip ${PYTHON_ARCHIVE_NAME}.tgz
 # NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
 tar -xf ${PYTHON_ARCHIVE_NAME}.tar
 rm ${PYTHON_ARCHIVE_NAME}.tar
+PYTHON_SRC_PATH=${PWD}/${PYTHON_ARCHIVE_NAME}
+echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
 
-echo 'PKG_CFLAGS=-I"'${PWD}/${PYTHON_ARCHIVE_NAME}'/Include" -I"'${PWD}/${PYTHON_ARCHIVE_NAME}'/PC"'     > src/makevars.win
+echo 'PKG_CFLAGS=-I"${PYTHON_SRC_PATH}/Include" -I"${PYTHON_SRC_PATH}/PC"'     > src/makevars.win
 
 echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
 
