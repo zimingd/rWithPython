@@ -2,11 +2,11 @@
 # CGB, 20100716
 #########################################################
 
-pathToPythonLibraries<-function() {
+pathToPythonLibraries<-function(libname, pkgname) {
 	# Note: 'pythonLibs' is defined in configure.win
 	pathToPythonLibraries<-file.path(libname, pkgname, "pythonLibs")
 	pathToPythonLibraries<-gsub("/", "\\", pathToPythonLibraries, fixed=T)
-	
+	pathToPythonLibraries
 }
 
 # on Windows we need to add Python dll's to library search path
@@ -19,7 +19,7 @@ addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
 #		newPathString<-paste(pathToPythonLibraries, currentPathString, sep=pathSep)
 #		Sys.setenv(PATH=newPathString)
 #	}
-	Sys.setenv(PATH=pathToPythonLibraries())
+	Sys.setenv(PATH=pathToPythonLibraries(libname, pkgname))
 #	cat("In addPythonLibrariesToWindowsPath, 'machine': ", Sys.info()['machine'], "\n")
 #	if (length(grep("64",  Sys.info()['machine'], fixed=T))==0) {
 #		# i386
@@ -41,7 +41,8 @@ addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
 	library.dynam( "rWithPython", pkgname, libname, local=FALSE)
 	
 	# This is an experiment.  Does loading up all the Python dlls
-	dlls <- list.files(path=pathToPythonLibraries(), pattern="dll$", full.names=TRUE, recursive=TRUE, ignore.case=TRUE)
+	dlls <- list.files(path=pathToPythonLibraries(libname, pkgname), 
+			pattern="dll$", full.names=TRUE, recursive=TRUE, ignore.case=TRUE)
 	for (dll in dlls) {
 		dyn.load(dlls, local=FALSE, now=TRUE)
 	}
