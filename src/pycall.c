@@ -49,8 +49,8 @@ void py_get_var( const char** var_name, int* found, char** resultado )
 
 #ifdef PY3K
     // checked that "PY3K" works as expected:  When we build 3.5.1 we land here
-    // TODO IS THIS RIGHT? *resultado = PyBytes_AS_STRING( PyUnicode_AsUTF8String(result) );
-     *resultado = PyString_AS_STRING(result);
+    *resultado = PyBytes_AS_STRING( PyUnicode_AsUTF8String(result) );
+    // TODO try this alternative *resultado = PyBytes_AS_STRING(result);
 #else
     *resultado = PyString_AS_STRING(result);
 #endif

@@ -1793,7 +1793,7 @@ fi
 
 PKG_LIBS=`$PYTHONCONFIG --ldflags`
 # PUT the static (not shared) library on the library path
-PKG_LIBS="-L${RWITHPYTHON_PYTHON_DIR}/lib/python${RWITHPYTHON_PYTHON_VERSION}/config ${PKG_LIBS}"
+PKG_LIBS="-L${RWITHPYTHON_PYTHON_DIR}/lib/python${RWITHPYTHON_PYTHON_VERSION}/config-${RWITHPYTHON_PYTHON_VERSION}m ${PKG_LIBS}"
 
 PKG_CFLAGS=`$PYTHONCONFIG --includes`
 
