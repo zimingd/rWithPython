@@ -48,8 +48,10 @@ void py_get_var( const char** var_name, int* found, char** resultado )
     }
 
 #ifdef PY3K
+    Rf_warning("PY3K is defined");
      *resultado = PyBytes_AS_STRING( PyUnicode_AsUTF8String(result) );
 #else
+     Rf_warning("PY3K is NOT defined");
     *resultado = PyString_AS_STRING(result);
 #endif
     // *resultado = PyUnicode_AsUTF8(result);				// Python 3?

@@ -15,7 +15,7 @@ python.get <- function( var.name ){
 		# TODO remove this debugging print statement
 		message("In python.get, result from 'py_get_var': <<", ret$resultado, ">>")
 		
-    ret <- fromJSON( ret$resultado )
+    ret <- fromJSON( substring(ret$resultado, 5, nchar(ret$resultado)) )
     if( length( ret ) == 1 ) ret <- ret[[1]]
     ret
 }
