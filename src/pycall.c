@@ -5,7 +5,7 @@
 #include <dlfcn.h>
 #endif
 
-#include <bytesobject.h>		// Port python 3
+#include <bytesobject.h>
 
 #define xstr(a) str(a)
 #define str(a) #a
@@ -26,12 +26,10 @@ void py_close(){
 
 void py_exec_code(const char** code, int* exit_status )
 {
-    /**exit_code = PyRun_SimpleString(*code); */
      *exit_status = PyRun_SimpleString(*code); 
 }
 
 
-/*void exec_pycode(const char** code, int* exit_code, char** resultado ) */
 void py_get_var( const char** var_name, int* found, char** resultado )
 {
 
@@ -52,7 +50,7 @@ void py_get_var( const char** var_name, int* found, char** resultado )
     //*resultado = PyBytes_AS_STRING( PyUnicode_AsUTF8String(result) );   On Windows this returns 4 leading chars of garbage
     // *resultado = PyBytes_AS_STRING(result); This does NOT work.  Garbage is returned
     //*resultado = PyUnicode_AsUTF8String(result);  // This does NOT work.  An empty string is returned
-    *resultado = PyUnicode_AsUTF8(result);				// Python 3?
+    *resultado = PyUnicode_AsUTF8(result);	// This DOES work
 #else
     *resultado = PyString_AS_STRING(result);
 #endif
