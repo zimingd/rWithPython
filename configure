@@ -1791,7 +1791,11 @@ if test -z "${PYTHONCONFIG}"; then
   exit 1
 fi
 
-PKG_LIBS=`$PYTHONCONFIG --ldflags`
+# On Mac, after upgrading to 3.5 the following caused: "ld: -stack_size option can only be used when linking a main executable"
+# So we switch from ldflags to libs
+#PKG_LIBS=`$PYTHONCONFIG --ldflags`
+PKG_LIBS=`$PYTHONCONFIG --libs`
+
 # PUT the static (not shared) library on the library path
 PKG_LIBS="-L${RWITHPYTHON_PYTHON_DIR}/lib/python${RWITHPYTHON_PYTHON_VERSION}/config-${RWITHPYTHON_PYTHON_VERSION}m ${PKG_LIBS}"
 
