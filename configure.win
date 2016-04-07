@@ -50,8 +50,10 @@ echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
 echo here is the content of ${PYTHON_SRC_PATH}/Include:
 ls -al ${PYTHON_SRC_PATH}/Include
 
-#echo 'PKG_CFLAGS=-I"../${PYTHON_SRC_PATH}/Include" -I"../${PYTHON_SRC_PATH}/PC"' > src/makevars.win
-echo 'PKG_CFLAGS=-I"../Python-3.5.1/Include" -I"../Python-3.5.1/PC"' > src/makevars.win
+# Confirmed that compilation is done under the 'src' directory, so ".." is needed before any
+# relative paths established during this script.  Not sure why ${PYTHON_SRC_PATH} doesn't work.
+echo 'PKG_CFLAGS=-I"'../${PYTHON_SRC_PATH}/Include'" -I"'../${PYTHON_SRC_PATH}/PC'"' > src/makevars.win
+#echo 'PKG_CFLAGS=-I"../Python-3.5.1/Include" -I"../Python-3.5.1/PC"' > src/makevars.win
 
 echo 'PKG_LIBS=-L"'../${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
 
