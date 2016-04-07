@@ -12,17 +12,15 @@ fi
 
 # This creates a folder /lib in the installed package.
 # Note:  You can't create /libs which is reserved for the R package installer
-mkdir inst/lib
-cd inst/lib
+PYTHON_LIB_PATH=inst/lib
+mkdir ${PYTHON_LIB_PATH}
+cd ${PYTHON_LIB_PATH}
 wget -O python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip $EMBEDDED_ZIP
 if [ "$?" -ne "0" ]; then
   echo "Failed to download $EMBEDDED_ZIP"
   exit 1
 fi
 unzip python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip
-PYTHON_LIB_PATH=.
-
-echo PYTHON_LIB_PATH=${PYTHON_LIB_PATH}
 
 cd ../..
 
