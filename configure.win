@@ -24,6 +24,11 @@ unzip python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip
 
 cd ../..
 
+echo here is the content of ${PYTHON_LIB_PATH}/python-3:
+ls -al ${PYTHON_LIB_PATH}/python-3
+
+
+
 # Now get the include files
 # Note, we don't put them into 'inst' because they aren't needed in the installed package
 PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
@@ -44,9 +49,6 @@ rm ${PYTHON_ARCHIVE_NAME}.tar
 
 PYTHON_SRC_PATH=${PYTHON_ARCHIVE_NAME}
 echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
-
-echo here is the content of ${PYTHON_SRC_PATH}/Include:
-ls -al ${PYTHON_SRC_PATH}/Include
 
 # Confirmed that compilation is done under the 'src' directory, so ".." is needed before any
 # relative paths established during this script.  
