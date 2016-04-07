@@ -44,7 +44,7 @@ PYTHON_SRC_PATH=${PWD}/${PYTHON_ARCHIVE_NAME}
 echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
 
 echo here is the content of ${PYTHON_SRC_PATH}/Include:
-ls -al ./Python-3.5.1/Include
+ls -al ${PYTHON_SRC_PATH}/Include
 
 echo 'PKG_CFLAGS=-I"${PYTHON_SRC_PATH}/Include" -I"${PYTHON_SRC_PATH}/PC"' > src/makevars.win
 
