@@ -31,28 +31,26 @@ cd ../..
 PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
 PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
 
-wget -O ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
+wget -O ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
 if [ "$?" -ne "0" ]; then
   echo "Failed to download ${PYTHON_RUNTIME_BUNDLE}"
   exit 1
 fi
-gunzip ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tgz
+
+gunzip ${PYTHON_ARCHIVE_NAME}.tgz
 # NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
 
-# this untars into the WRONG PLACE!!!
-START_DIR=${PWD}
-cd ${TMPDIR}
 tar -xf ${PYTHON_ARCHIVE_NAME}.tar
 rm ${PYTHON_ARCHIVE_NAME}.tar
-cd ${START_DIR}
 
-PYTHON_SRC_PATH=${TMPDIR}/${PYTHON_ARCHIVE_NAME}
+
+PYTHON_SRC_PATH=${PYTHON_ARCHIVE_NAME}
 echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
 
 echo here is the content of ${PYTHON_SRC_PATH}/Include:
 ls -al ${PYTHON_SRC_PATH}/Include
 
-echo 'PKG_CFLAGS=-I"${PYTHON_SRC_PATH}/Include" -I"${PYTHON_SRC_PATH}/PC"' > src/makevars.win
+echo 'PKG_CFLAGS=-I"../${PYTHON_SRC_PATH}/Include" -I"../${PYTHON_SRC_PATH}/PC"' > src/makevars.win
 
-echo 'PKG_LIBS=-L"'${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
+echo 'PKG_LIBS=-L"'../${PYTHON_LIB_PATH}'" -lpython35'  >> src/makevars.win
 
