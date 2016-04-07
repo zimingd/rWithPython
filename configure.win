@@ -10,10 +10,10 @@ else
 	EMBEDDED_ZIP=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed-win32.zip
 fi
 
-# This creates a folder /lib in the installed package.
+# This creates a folder /pythonLibs in the installed package.
 # Note:  You can't create /libs which is reserved for the R package installer
-PYTHON_LIB_PATH=inst/lib
-mkdir ${PYTHON_LIB_PATH}
+PYTHON_LIB_PATH=inst/pythonLibs
+mkdir -p ${PYTHON_LIB_PATH}
 cd ${PYTHON_LIB_PATH}
 wget -O python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip $EMBEDDED_ZIP
 if [ "$?" -ne "0" ]; then
@@ -23,11 +23,6 @@ fi
 unzip python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}-embed.zip
 
 cd ../..
-
-echo here is the content of ${PYTHON_LIB_PATH}:
-ls -al ${PYTHON_LIB_PATH}
-
-
 
 # Now get the include files
 # Note, we don't put them into 'inst' because they aren't needed in the installed package
