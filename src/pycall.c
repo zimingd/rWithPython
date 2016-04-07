@@ -48,10 +48,9 @@ void py_get_var( const char** var_name, int* found, char** resultado )
     }
 
 #ifdef PY3K
-    Rf_warning("PY3K is defined");
+    // checked that "PY3K" works as expected:  When we build 3.5.1 we land here
      *resultado = PyBytes_AS_STRING( PyUnicode_AsUTF8String(result) );
 #else
-     Rf_warning("PY3K is NOT defined");
     *resultado = PyString_AS_STRING(result);
 #endif
     // *resultado = PyUnicode_AsUTF8(result);				// Python 3?

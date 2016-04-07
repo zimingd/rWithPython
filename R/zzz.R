@@ -40,12 +40,13 @@ addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
 	# are part of Python modules will not have access to the symbols in libpython
 	library.dynam( "rWithPython", pkgname, libname, local=FALSE)
 	
-	# This is an experiment.  Does loading up all the Python dlls
-	dlls <- list.files(path=pathToPythonLibraries(libname, pkgname), 
-			pattern="dll$", full.names=TRUE, recursive=TRUE, ignore.case=TRUE)
-	for (dll in dlls) {
-		dyn.load(dll, local=FALSE, now=TRUE)
-	}
+#	# This is an experiment.  Does loading up all the Python dlls fix the problem?
+#	dlls <- list.files(path=pathToPythonLibraries(libname, pkgname), 
+#			pattern="dll$", full.names=TRUE, recursive=TRUE, ignore.case=TRUE)
+#	for (dll in dlls) {
+#		dyn.load(dll, local=FALSE, now=TRUE)
+#	}
+	
   .C( "py_init", PACKAGE = "rWithPython" )
 }
 
