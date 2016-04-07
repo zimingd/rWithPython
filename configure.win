@@ -38,8 +38,14 @@ if [ "$?" -ne "0" ]; then
 fi
 gunzip ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tgz
 # NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
-tar -xf ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tar
-rm ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tar
+
+# this untars into the WRONG PLACE!!!
+START_DIR=${PWD}
+cd ${TMPDIR}
+tar -xf ${PYTHON_ARCHIVE_NAME}.tar
+rm ${PYTHON_ARCHIVE_NAME}.tar
+cd ${START_DIR}
+
 PYTHON_SRC_PATH=${TMPDIR}/${PYTHON_ARCHIVE_NAME}
 echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
 
