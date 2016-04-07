@@ -12,6 +12,9 @@ python.get <- function( var.name ){
     if( ret$not.found.var )
         stop( "Variable not found" )
         
+		# TODO remove this debugging print statement
+		message("In python.get, result from 'py_get_var': <<", ret$resultado, ">>")
+		
     ret <- fromJSON( ret$resultado )
     if( length( ret ) == 1 ) ret <- ret[[1]]
     ret
