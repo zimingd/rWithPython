@@ -40,7 +40,7 @@ addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
 	# are part of Python modules will not have access to the symbols in libpython
 	library.dynam( "rWithPython", pkgname, libname, local=FALSE)
 	
-#	# This is an experiment.  Does loading up all the Python dlls fix the problem?
+#	# This doesn't seem to be necessary.  Putting the folder on the search path is sufficient
 #	dlls <- list.files(path=pathToPythonLibraries(libname, pkgname), 
 #			pattern="dll$", full.names=TRUE, recursive=TRUE, ignore.case=TRUE)
 #	for (dll in dlls) {
