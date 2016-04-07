@@ -31,16 +31,16 @@ cd ../..
 PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
 PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
 
-wget -O ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
+wget -O ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
 if [ "$?" -ne "0" ]; then
   echo "Failed to download ${PYTHON_RUNTIME_BUNDLE}"
   exit 1
 fi
-gunzip ${PYTHON_ARCHIVE_NAME}.tgz
+gunzip ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tgz
 # NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
-tar -xf ${PYTHON_ARCHIVE_NAME}.tar
-rm ${PYTHON_ARCHIVE_NAME}.tar
-PYTHON_SRC_PATH=${PWD}/${PYTHON_ARCHIVE_NAME}
+tar -xf ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tar
+rm ${TMPDIR}/${PYTHON_ARCHIVE_NAME}.tar
+PYTHON_SRC_PATH=${TMPDIR}/${PYTHON_ARCHIVE_NAME}
 echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
 
 echo here is the content of ${PYTHON_SRC_PATH}/Include:
