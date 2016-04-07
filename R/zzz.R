@@ -44,7 +44,7 @@ addPythonLibrariesToWindowsPath<-function(libname, pkgname) {
 	dlls <- list.files(path=pathToPythonLibraries(libname, pkgname), 
 			pattern="dll$", full.names=TRUE, recursive=TRUE, ignore.case=TRUE)
 	for (dll in dlls) {
-		dyn.load(dlls, local=FALSE, now=TRUE)
+		dyn.load(dll, local=FALSE, now=TRUE)
 	}
   .C( "py_init", PACKAGE = "rWithPython" )
 }
