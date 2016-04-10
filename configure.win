@@ -43,7 +43,6 @@ rm ${PYTHON_ARCHIVE_NAME}.tar
 
 
 PYTHON_SRC_PATH=${PYTHON_ARCHIVE_NAME}
-echo PYTHON_SRC_PATH=${PYTHON_SRC_PATH}
 
 # Confirmed that compilation is done under the 'src' directory, so ".." is needed before any
 # relative paths established during this script.  
