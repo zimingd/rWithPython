@@ -46,11 +46,7 @@ void py_get_var( const char** var_name, int* found, char** resultado )
     }
 
 #ifdef PY3K
-    // checked that "PY3K" works as expected:  When we build 3.5.1 we land here
-    //*resultado = PyBytes_AS_STRING( PyUnicode_AsUTF8String(result) );   On Windows this returns 4 leading chars of garbage
-    // *resultado = PyBytes_AS_STRING(result); This does NOT work.  Garbage is returned
-    //*resultado = PyUnicode_AsUTF8String(result);  // This does NOT work.  An empty string is returned
-    *resultado = PyUnicode_AsUTF8(result);	// This DOES work
+    *resultado = PyUnicode_AsUTF8(result);
 #else
     *resultado = PyString_AS_STRING(result);
 #endif
