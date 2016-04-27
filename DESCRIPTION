@@ -1,17 +1,12 @@
-Package: rPython
-Version: 0.0-5
-Date: 2014-08-02
-Title: Package allowing R to call Python
+Package: rWithPython
+Version: 0.0-1
+Date: 2015-12-29
+Title: Package allowing R to call embedded/private copy of Python
 Author: Carlos J. Gil Bellosta
-Maintainer: Carlos J. Gil Bellosta <cgb@datanalytics.com>
+Maintainer: Bruce Hoff <bruce.hoff@sagebase.org>
 Description: This package permits calls to Python from R
 Depends: RJSONIO (>= 0.7-3)
 License: GPL-2
-SystemRequirements: Python (>= 2.7) and Python headers and libraries
-        (See the INSTALL file)
-OS_type: unix
-URL: http://rpython.r-forge.r-project.org/
-Packaged: 2014-08-02 17:13:10 UTC; carlos
-NeedsCompilation: yes
-Repository: CRAN
-Date/Publication: 2014-08-03 08:04:47
+URL: https://github.com/Sage-Bionetworks/rWithPython
+Packaged: 2015-12-29
+Date/Publication: 2015-12-29

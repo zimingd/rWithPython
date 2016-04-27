@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 # This file is based on configure.ac file distributed along with the rJava package
 
-AC_INIT(rPython, 0.3, cgb@datanalytics.com)
+AC_INIT(rWithPython, 0.3, cgb@datanalytics.com)
 AC_CONFIG_SRCDIR([src])
 #AC_CONFIG_HEADER([src/config.h])
 
@@ -21,19 +21,41 @@ if test -n "$RLD"; then
    has_R_shlib=yes
 fi
 
-MYPYTHONCONFIG=python-config
-MYPYTHON=python
-
-# find user defined python version, if set
-if test -z "${RPYTHON_PYTHON_VERSION}"
-then
-  echo "a specific python version to use was not provided"
-  echo "defaulting to the standard python in the system"
-else
-  MYPYTHON=python${RPYTHON_PYTHON_VERSION}
-  MYPYTHONCONFIG=python${RPYTHON_PYTHON_VERSION}-config
+# ----- install the Python package -----
+RWITHPYTHON_PYTHON_VERSION=3.5
+RWITHPYTHON_PYTHON_VERSION_EXTENDED=3.5.1
+PYTHON_ARCHIVE_NAME=Python-${RWITHPYTHON_PYTHON_VERSION_EXTENDED}
+PYTHON_RUNTIME_BUNDLE=https://www.python.org/ftp/python/${RWITHPYTHON_PYTHON_VERSION_EXTENDED}/${PYTHON_ARCHIVE_NAME}.tgz
+# what follows, delimited by square brackets, is a script to be copied into the 'configure' output file
+[
+cd inst
+wget -O ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
+if [ "$?" -ne "0" ]; then
+	curl -o ${PYTHON_ARCHIVE_NAME}.tgz ${PYTHON_RUNTIME_BUNDLE}
 fi
+if [ "$?" -ne "0" ]; then
+  echo "Failed to download ${PYTHON_RUNTIME_BUNDLE}"
+  exit 1
+fi
+gunzip ${PYTHON_ARCHIVE_NAME}.tgz
+# NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
+tar -xf ${PYTHON_ARCHIVE_NAME}.tar
+rm ${PYTHON_ARCHIVE_NAME}.tar
+RWITHPYTHON_PYTHON_DIR=${PWD}
+cd ${PYTHON_ARCHIVE_NAME}
+# in the following line the '--prefix' parameter is the installation location
+./configure --enable-shared --prefix=${RWITHPYTHON_PYTHON_DIR}
+make
+make altinstall
+cd ..
+rm -R ${PYTHON_ARCHIVE_NAME}
+cd ..
+# we're now back where we started, in the base directory for the R package
+]
 
+
+MYPYTHONCONFIG=${RWITHPYTHON_PYTHON_DIR}/bin/python${RWITHPYTHON_PYTHON_VERSION}m-config
+MYPYTHON=${RWITHPYTHON_PYTHON_DIR}/bin/python${RWITHPYTHON_PYTHON_VERSION}
 
 # Extract the linker and include flags for python
 : ${PYTHONCONFIG=`which ${MYPYTHONCONFIG}`}
@@ -42,22 +64,15 @@ if test -z "${PYTHONCONFIG}"; then
   exit 1
 fi
 
-#PKG_LIBS=`$PYTHONCONFIG --libs`		# valor original
-PKG_LIBS=`$PYTHONCONFIG --ldflags`			# valor modificado	
+# On Mac, after upgrading to 3.5 the following caused: "ld: -stack_size option can only be used when linking a main executable"
+# So we switch from ldflags to libs
+#PKG_LIBS=`$PYTHONCONFIG --ldflags`
+PKG_LIBS=`$PYTHONCONFIG --libs`
+
+# PUT the static (not shared) library on the library path
+PKG_LIBS="-L${RWITHPYTHON_PYTHON_DIR}/lib/python${RWITHPYTHON_PYTHON_VERSION}/config-${RWITHPYTHON_PYTHON_VERSION}m ${PKG_LIBS}"
+
 PKG_CFLAGS=`$PYTHONCONFIG --includes`
-
-# Find the .so library for python
-: ${PYTHON=`which ${MYPYTHON}`}
-if test -z "${PYTHON}"; then
-  echo "could not locate ${MYPYTHON}"
-  exit 1
-fi
-
-PYTHONLIBFILE=libpython`$PYTHON -c "import sys; print(sys.version[[:3]])"`.so
-
-PKG_CFLAGS="$PKG_CFLAGS -D PYTHONLIBFILE=$PYTHONLIBFILE"
-
-
 
 AC_SUBST(PKG_LIBS)
 AC_SUBST(PKG_CFLAGS)

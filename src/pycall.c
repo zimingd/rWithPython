@@ -5,7 +5,7 @@
 #include <dlfcn.h>
 #endif
 
-#include <bytesobject.h>		// Port python 3
+#include <bytesobject.h>
 
 #define xstr(a) str(a)
 #define str(a) #a
@@ -15,12 +15,6 @@
 #endif
 
 void py_init(){
-
-#ifndef _WIN32
-    //dlopen( "libpython2.7.so.1.0", RTLD_NOW | RTLD_GLOBAL );
-    dlopen( xstr(PYTHONLIBFILE), RTLD_NOW | RTLD_GLOBAL );		// Passed as a macro at compile time
-#endif
-
     Py_Initialize();
     PyRun_SimpleString("import json");
 }
@@ -32,12 +26,10 @@ void py_close(){
 
 void py_exec_code(const char** code, int* exit_status )
 {
-    /**exit_code = PyRun_SimpleString(*code); */
      *exit_status = PyRun_SimpleString(*code); 
 }
 
 
-/*void exec_pycode(const char** code, int* exit_code, char** resultado ) */
 void py_get_var( const char** var_name, int* found, char** resultado )
 {
 
@@ -54,9 +46,8 @@ void py_get_var( const char** var_name, int* found, char** resultado )
     }
 
 #ifdef PY3K
-     *resultado = PyBytes_AS_STRING( PyUnicode_AsUTF8String(result) );
+    *resultado = PyUnicode_AsUTF8(result);
 #else
     *resultado = PyString_AS_STRING(result);
 #endif
-    // *resultado = PyUnicode_AsUTF8(result);				// Python 3?
 }
