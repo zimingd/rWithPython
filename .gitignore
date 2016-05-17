@@ -4,6 +4,7 @@ src/*.so
 **/.DS_Store
 .project
 .settings/*
+.pydevproject
 autom4te.cache/
 config.log
 config.status
