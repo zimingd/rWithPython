@@ -1,7 +1,8 @@
 #########################################################
-# CGB, 20100716
+# bhoff
 #########################################################
 
+# this is for Windows only
 pathToPythonLibraries<-function(libname, pkgname) {
 	# Note: 'pythonLibs' is defined in configure.win
 	pathToPythonLibraries<-file.path(libname, pkgname, "pythonLibs")
