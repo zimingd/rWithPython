@@ -40,7 +40,7 @@ fi
 gunzip ${PYTHON_ARCHIVE_NAME}.tgz
 # NOTE: 'gunzip' removes the .tgz file leaving just the .tar file
 tar -xf ${PYTHON_ARCHIVE_NAME}.tar
-rm ${PYTHON_ARCHIVE_NAME}.tar
+/bin/rm ${PYTHON_ARCHIVE_NAME}.tar
 RWITHPYTHON_PYTHON_DIR=${PWD}
 cd ${PYTHON_ARCHIVE_NAME}
 # in the following line the '--prefix' parameter is the installation location
@@ -48,7 +48,7 @@ cd ${PYTHON_ARCHIVE_NAME}
 make
 make altinstall
 cd ..
-rm -R ${PYTHON_ARCHIVE_NAME}
+/bin/rm -R ${PYTHON_ARCHIVE_NAME}
 cd ..
 # we're now back where we started, in the base directory for the R package
 ]
