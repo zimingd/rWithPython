@@ -21,6 +21,37 @@ if test -n "$RLD"; then
    has_R_shlib=yes
 fi
 
+# ----- install openSSL ----
+#need openSSL for the pip module to properly install
+#Modified version of answer in:
+#http://stackoverflow.com/questions/32856389/how-to-import-ssl-in-python-2-7-6
+
+OPENSSL_VERSION=1.0.2j
+OPENSSL_ARCHIVE_NAME=openssl-${OPENSSL_VERSION}
+OPENSSL_RUNTIME_BUNDLE=https://www.openssl.org/source/${OPENSSL_ARCHIVE_NAME}.tar.gz
+[
+cd inst
+wget -O ${OPENSSL_ARCHIVE_NAME}.tar.gz ${OPENSSL_RUNTIME_BUNDLE}
+if [ "$?" -ne "0" ]; then
+	curl -o ${OPENSSL_ARCHIVE_NAME}.tar.gz ${OPENSSL_RUNTIME_BUNDLE}
+fi
+if [ "$?" -ne "0" ]; then
+  echo "Failed to download ${OPENSSL_RUNTIME_BUNDLE}"
+  exit 1
+fi
+gunzip ${OPENSSL_ARCHIVE_NAME}.tar.gz
+tar -xf ${OPENSSL_ARCHIVE_NAME}.tar
+/bin/rm ${OPENSSL_ARCHIVE_NAME}.tar
+OPENSSL_DIR=${PWD}/openSSL
+cd ${OPENSSL_ARCHIVE_NAME}
+./config --prefix=${OPENSSL_DIR} -fPIC   //configuration：create path independent libssl.a
+make && make install
+
+cd ..
+/bin/rm -R ${OPENSSL_ARCHIVE_NAME}
+cd ..
+]
+
 # ----- install the Python package -----
 RWITHPYTHON_PYTHON_VERSION=3.5
 RWITHPYTHON_PYTHON_VERSION_EXTENDED=3.5.1
@@ -43,8 +74,12 @@ tar -xf ${PYTHON_ARCHIVE_NAME}.tar
 /bin/rm ${PYTHON_ARCHIVE_NAME}.tar
 RWITHPYTHON_PYTHON_DIR=${PWD}
 cd ${PYTHON_ARCHIVE_NAME}
+
+#Edit Modules/Setup.dist to point to the previously compiled OpenSSL directory
+sed -i s:#SSL=/usr/local/ssl:SSL=`echo ${OPENSSL_DIR}`: Modules/Setup.dist
+
 # in the following line the '--prefix' parameter is the installation location
-./configure --enable-shared --prefix=${RWITHPYTHON_PYTHON_DIR}
+./configure --enable-shared --prefix=${RWITHPYTHON_PYTHON_DIR} --with-ensurepip=install
 make
 make altinstall
 cd ..
